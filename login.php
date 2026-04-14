@@ -4,11 +4,19 @@ require 'conexion.php';
 
 /* 🔥 PROCESAR LOGIN PRIMERO */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
+    $correo = $_POST['correo'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    $sql = "SELECT * FROM usuarios WHERE correo='$correo'";
-    $resultado = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE correo = ?");
+    
+    if (!$stmt) {
+        die("Error en la consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
 
     if ($resultado->num_rows > 0) {
         $usuario = $resultado->fetch_assoc();
@@ -24,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 header("Location: index.php");
             }
-            exit(); // 🔥 importante
+            exit();
 
         } else {
             $error = "Contraseña incorrecta";
@@ -33,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error = "Usuario no encontrado";
     }
+
+    $stmt->close();
 }
 ?>
 
@@ -42,7 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Login</h2>
 
     <form method="POST">
-        <input type="email" name="correo" placeholder="Correo" required>
+        <input 
+            type="email" 
+            name="correo" 
+            placeholder="Correo" 
+            required 
+            value="<?php echo htmlspecialchars($correo ?? ''); ?>"
+        >
         <div class="password-container">
             <input type="password" name="password" id="password" placeholder="Contraseña" required>
             <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
