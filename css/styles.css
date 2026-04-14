@@ -179,3 +179,29 @@ a {
     margin-bottom: 10px;
     font-size: 14px;
 }
+
+/* CONTENEDOR PASSWORD */
+.password-container {
+    position: relative;
+}
+
+/* INPUT CON ESPACIO PARA ICONO */
+.password-container input {
+    padding-right: 40px;
+}
+
+/* ICONO OJITO */
+.toggle-password {
+    padding: 5px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+}
+
+.toggle-password:hover {
+    color: #000;
+}

@@ -46,7 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="nombre" placeholder="Nombre completo" required>
         <input type="text" name="area" placeholder="Área" required>
         <input type="email" name="correo" placeholder="Correo" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
+        <div class="password-container">
+            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
 
         <button type="submit">Registrarse</button>
     </form>

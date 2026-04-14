@@ -43,7 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form method="POST">
         <input type="email" name="correo" placeholder="Correo" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
+        <div class="password-container">
+            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
 
         <?php if (isset($error)): ?>
             <p class="error"><?php echo $error; ?></p>
