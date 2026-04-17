@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-04-2026 a las 21:19:52
+-- Tiempo de generación: 17-04-2026 a las 18:41:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,6 +37,26 @@ CREATE TABLE `adjuntos` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `areas`
+--
+
+CREATE TABLE `areas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `areas`
+--
+
+INSERT INTO `areas` (`id`, `nombre`) VALUES
+(1, 'Departamento de TI'),
+(2, 'Jurídico'),
+(3, 'Tesorería');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tickets`
 --
 
@@ -60,7 +80,7 @@ CREATE TABLE `tickets` (
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `area` varchar(100) NOT NULL,
+  `area_id` int(11) DEFAULT NULL,
   `correo` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `rol` enum('admin','usuario') DEFAULT 'usuario',
@@ -71,9 +91,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `area`, `correo`, `password`, `rol`, `fecha_creacion`) VALUES
-(1, 'José Miguel Broca Méndez', 'Departamento TI', 'josemiguelbrokis@gmail.com', '$2y$10$NwQSKeLmHMXFbFpmuO4YsOAije6.t3gLxDeWe4sTb88RIWnBz9OR6', 'usuario', '2026-04-10 18:35:12'),
-(3, 'Lionel Messi', 'Soccer', 'leomessi@gmail.com', '$2y$10$3XrG7NcATDvMWVK9OykgseIns14gwNOxCxu9ahlx67IFOObgHa16u', 'usuario', '2026-04-10 19:19:46');
+INSERT INTO `usuarios` (`id`, `nombre`, `area_id`, `correo`, `password`, `rol`, `fecha_creacion`) VALUES
+(1, 'José Miguel Broca Méndez', 1, 'josemiguelbrokis@gmail.com', '$2y$10$NwQSKeLmHMXFbFpmuO4YsOAije6.t3gLxDeWe4sTb88RIWnBz9OR6', 'usuario', '2026-04-10 18:35:12');
 
 --
 -- Índices para tablas volcadas
@@ -87,6 +106,12 @@ ALTER TABLE `adjuntos`
   ADD KEY `ticket_id` (`ticket_id`);
 
 --
+-- Indices de la tabla `areas`
+--
+ALTER TABLE `areas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `tickets`
 --
 ALTER TABLE `tickets`
@@ -98,7 +123,8 @@ ALTER TABLE `tickets`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `correo` (`correo`);
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD KEY `fk_area` (`area_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -111,6 +137,12 @@ ALTER TABLE `adjuntos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `areas`
+--
+ALTER TABLE `areas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
@@ -120,7 +152,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
@@ -137,6 +169,12 @@ ALTER TABLE `adjuntos`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

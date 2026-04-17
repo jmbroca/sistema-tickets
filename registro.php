@@ -5,9 +5,11 @@ require 'conexion.php';
 $success = false;
 $error = "";
 
+$areas = $conn->query("SELECT * FROM areas");
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre'] ?? '';
-    $area = $_POST['area'] ?? '';
+    $area_id = $_POST['area_id'] ?? '';
     $correo = $_POST['correo'] ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -23,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($resultado->num_rows > 0) {
         $error = "Este correo ya está registrado";
     } else {
-        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, area, correo, password) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $nombre, $area, $correo, $passwordHash);
+        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, area_id, correo, password) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("siss", $nombre, $area_id, $correo, $passwordHash);
 
         if ($stmt->execute()) {
             $success = true;
@@ -61,8 +63,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="nombre" placeholder="Nombre completo" required 
         value="<?php echo htmlspecialchars($nombre ?? ''); ?>">
 
-        <input type="text" name="area" placeholder="Área" required 
-        value="<?php echo htmlspecialchars($area ?? ''); ?>">
+        <select name="area_id" required>
+            <option value="">Selecciona un área</option>
+            <?php while($area = $areas->fetch_assoc()): ?>
+                <option value="<?php echo $area['id']; ?>"
+                    <?php if (($area_id ?? '') == $area['id']) echo 'selected'; ?>>
+                    <?php echo htmlspecialchars($area['nombre']); ?>
+                </option>
+            <?php endwhile; ?>
+        </select>
 
         <input type="email" name="correo" placeholder="Correo" required 
         value="<?php echo htmlspecialchars($correo ?? ''); ?>">
