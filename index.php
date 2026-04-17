@@ -1,8 +1,7 @@
 <?php
-session_start();
+require 'includes/init.php';
+include 'includes/header.php';
 ?>
-
-<?php include 'includes/header.php'; ?>
 
 <div class="container">
 

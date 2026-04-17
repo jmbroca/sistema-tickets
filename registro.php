@@ -1,6 +1,5 @@
 <?php
-session_start();
-require 'conexion.php';
+require 'includes/init.php';
 
 $success = false;
 $error = "";
@@ -77,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         value="<?php echo htmlspecialchars($correo ?? ''); ?>">
 
         <div class="password-container">
-            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <input type="password" name="password" id="password" placeholder="Contraseña" required minlength="6">
             <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
         </div>
 

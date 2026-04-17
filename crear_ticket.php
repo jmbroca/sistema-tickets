@@ -1,9 +1,5 @@
 <?php
-session_start();
-require 'conexion.php';
-
-if (!isset($_SESSION['usuario'])) {
-    header("Location: login.php");
-    exit();
-}
+require 'includes/init.php';
+require 'includes/auth.php';
+requireLogin();
 ?>

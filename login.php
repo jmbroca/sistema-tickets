@@ -1,6 +1,5 @@
 <?php
-session_start();
-require 'conexion.php';
+require 'includes/init.php';
 
 /* 🔥 PROCESAR LOGIN PRIMERO */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['rol'] = $usuario['rol'];
 
             if ($usuario['rol'] == 'admin') {
-                header("Location: dashboard.php");
+                header("Location: admin/dashboard.php");
             } else {
                 header("Location: index.php");
             }
