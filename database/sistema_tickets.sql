@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-04-2026 a las 21:08:33
+-- Tiempo de generación: 20-04-2026 a las 21:28:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -65,7 +65,8 @@ INSERT INTO `areas` (`id`, `nombre`) VALUES
 (13, 'MÓDULO DE OFICIALIA MAYOR'),
 (14, 'COMISIÓN MIXTA CLAU.65'),
 (15, 'COMISIÓN DE CONTRATOS'),
-(16, 'ÁREA DE FILTRO DE SEGURIDAD');
+(16, 'ÁREA DE FILTRO DE SEGURIDAD'),
+(17, 'DEPTO. DE TECNOLOGÍAS DE LA INFORMACIÓN');
 
 -- --------------------------------------------------------
 
@@ -146,7 +147,7 @@ ALTER TABLE `adjuntos`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tickets`
@@ -158,7 +159,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
