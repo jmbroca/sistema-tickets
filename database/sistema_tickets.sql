@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-04-2026 a las 21:28:39
+-- Tiempo de generación: 21-04-2026 a las 21:09:15
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -76,11 +76,14 @@ INSERT INTO `areas` (`id`, `nombre`) VALUES
 
 CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
-  `concepto` varchar(150) NOT NULL,
+  `concepto` enum('Relleno de tinta','Impresora no detectada','Atasco de papel','Impresión con manchas o rayas','Limpieza de equipo','Computadora no enciende','Sin acceso a Internet','Otro (Especificar en descripción)') NOT NULL,
   `descripcion` text NOT NULL,
-  `equipo` varchar(100) NOT NULL,
-  `prioridad` enum('baja','media','alta') DEFAULT 'media',
-  `estado` enum('pendiente','en_proceso','resuelto') DEFAULT 'pendiente',
+  `equipo` enum('Impresora','Computadora') NOT NULL,
+  `marca` enum('Canon','Epson','Brother','HP','Lenovo','DELL','Asus') NOT NULL,
+  `modelo` varchar(15) NOT NULL,
+  `prioridad` enum('Baja','Media','Alta') DEFAULT 'Media',
+  `estado` enum('Pendiente','En proceso','Resuelto','Rechazado','Cancelado') DEFAULT 'Pendiente',
+  `motivo_rechazo` varchar(255) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -159,7 +162,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

@@ -2,9 +2,8 @@
 require '../includes/init.php';
 require '../includes/auth.php';
 requireAdmin();
+include '../includes/header.php';
 ?>
-
-<?php include '../includes/header.php'; ?>
 
 <div class="container">
     <h2>Panel de Administración</h2>
