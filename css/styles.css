@@ -27,6 +27,18 @@ body {
     transform: translateY(-40px);
 }
 
+.container-2 {
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    transform: none;
+}
+
+
 /* TITULOS */
 h2 {
     text-align: center;
@@ -41,6 +53,12 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    resize: none;
+    min-height: 100px;
 }
 
 /* BOTONES */
@@ -71,6 +89,9 @@ a {
 /* 📱 RESPONSIVE PARA PANTALLAS GRANDES */
 @media (min-width: 768px) {
     .container {
+        max-width: 500px;
+    }
+    .container-2 {
         max-width: 500px;
     }
 }

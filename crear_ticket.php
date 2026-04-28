@@ -24,7 +24,7 @@ $error = "";
 
 // 🔽 PROCESAR FORMULARIO
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    
     $concepto = $_POST['concepto'] ?? '';
     $descripcion = $_POST['descripcion'] ?? '';
     $equipo = $_POST['equipo'] ?? '';
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $estado = 'pendiente';
         $motivo = null;
-
+        
         $stmt = $conn->prepare("
             INSERT INTO tickets 
             (concepto, descripcion, equipo, marca, modelo, prioridad, estado, motivo_rechazo, usuario_id)
@@ -60,10 +60,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
 
         if ($stmt->execute()) {
-            $success = true;
-        } else {
-            $error = "Error al crear el ticket";
+
+        $ticket_id = $conn->insert_id;
+
+        // Procesar adjuntos si existen
+        if (!empty($_FILES['adjuntos']['name'][0])) {
+
+            if (count($_FILES['adjuntos']['name']) > 3) {
+                $error = "Máximo 3 archivos.";
+            } else {
+
+                $permitidos = [
+                    'application/pdf',
+                    'image/jpeg',
+                    'image/png'
+                ];
+
+                $rutaDestino = "uploads/";
+
+                foreach ($_FILES['adjuntos']['tmp_name'] as $i => $tmp) {
+                    
+                    if ($_FILES['adjuntos']['error'][$i] !== 0) {
+                        continue;
+                    }
+
+                    $mime = mime_content_type($tmp);
+
+                    if (!in_array($mime, $permitidos)) {
+                        continue;
+                    }
+
+                    $extension = pathinfo(
+                        $_FILES['adjuntos']['name'][$i],
+                        PATHINFO_EXTENSION
+                    );
+
+                    // nombre único
+                    $nuevoNombre = uniqid('ticket_') . "." . $extension;
+
+                    if (
+                        move_uploaded_file(
+                            $tmp,
+                            $rutaDestino . $nuevoNombre
+                        )
+                    ) {
+
+                        $adj = $conn->prepare("
+                            INSERT INTO adjuntos
+                            (ticket_id, archivo)
+                            VALUES (?, ?)
+                        ");
+
+                        $adj->bind_param(
+                            "is",
+                            $ticket_id,
+                            $nuevoNombre
+                        );
+
+                        $adj->execute();
+                        $adj->close();
+                    }
+                }
+            }
         }
+
+        $success = true;
+
+    } else {
+        $error = "Error al crear el ticket";
+    }
 
         $stmt->close();
     }
@@ -72,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php include 'includes/header.php'; ?>
 
-<div class="container">
+<div class="container-2">
     <h2>Crear Ticket</h2>
 
     <?php if ($success): ?>
@@ -90,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <?php if (!$success): ?>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
 
         <!-- CONCEPTO -->
         <select name="concepto" required>
@@ -131,8 +196,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
 
         <!-- ADJUNTOS (placeholder) -->
-        <input type="file" disabled>
-        <p class="hint">Adjuntos próximamente (máx. 3 archivos)</p>
+        <input
+        type="file"
+        id="adjuntos"
+        name="adjuntos[]"
+        multiple
+        accept=".pdf,.jpg,.jpeg,.png">
+        
+        <p id="archivo-error" class="error" style="display:none;"></p>
+        <p class="hint">
+        Opcional: hasta 3 archivos (PDF, JPG, PNG)
+        </p><br>
 
         <button type="submit">Crear ticket</button>
     </form>
