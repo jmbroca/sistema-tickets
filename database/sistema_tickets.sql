@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2026 a las 21:09:15
+-- Tiempo de generación: 30-04-2026 a las 19:56:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -45,29 +45,6 @@ CREATE TABLE `areas` (
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `areas`
---
-
-INSERT INTO `areas` (`id`, `nombre`) VALUES
-(1, 'SRIA. GENERAL'),
-(2, 'SRIA. DE TRABAJO'),
-(3, 'SRIA. DEL INTERIOR'),
-(4, 'SRIA. DEL EXTERIOR Y PROPAGANDA'),
-(5, 'SRIA. DE AJUSTES'),
-(6, 'SRIA. DE ORGANIZACIÓN Y ESTADÍSTICA'),
-(7, 'SRIA. DE PREVISIÓN SOCIAL'),
-(8, 'CJO. LOCAL DE VIGILANCIA'),
-(9, 'DEPTO. DE TESORERÍA'),
-(10, 'DEPTO. JURIDICO'),
-(11, 'DEPTO. DE COMUNICACIÓN SOCIAL'),
-(12, 'DEPTO. DE MANTTO - STAFF'),
-(13, 'MÓDULO DE OFICIALIA MAYOR'),
-(14, 'COMISIÓN MIXTA CLAU.65'),
-(15, 'COMISIÓN DE CONTRATOS'),
-(16, 'ÁREA DE FILTRO DE SEGURIDAD'),
-(17, 'DEPTO. DE TECNOLOGÍAS DE LA INFORMACIÓN');
-
 -- --------------------------------------------------------
 
 --
@@ -85,7 +62,8 @@ CREATE TABLE `tickets` (
   `estado` enum('Pendiente','En proceso','Resuelto','Rechazado','Cancelado') DEFAULT 'Pendiente',
   `motivo_rechazo` varchar(255) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_cancelado` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -150,7 +128,7 @@ ALTER TABLE `adjuntos`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tickets`

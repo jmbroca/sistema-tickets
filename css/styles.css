@@ -440,6 +440,8 @@ a {
     transition: background 1s ease;
 }
 
+/* CANCELAR TICKET */
+
 .cancel-ticket{
     font-size:13px;
     color:#d62828;
@@ -451,4 +453,14 @@ a {
 
 .cancel-ticket:hover{
     text-decoration:underline;
+}
+
+/* MOTIVO DEL RECHAZO*/
+
+.motivo-rechazo{
+    font-size:13px;
+    color:#d62828;
+    margin-top:10px;
+    text-align:left;
+    line-height:1.4;
 }

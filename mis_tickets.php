@@ -121,6 +121,13 @@ if($estado=='cancelado' || $estado=='rechazado'){
     </p>
 <?php endif; ?>
 
+<?php if ($ticket['estado'] === 'Rechazado'): ?>
+    <p class="motivo-rechazo">
+        <strong>Motivo del rechazo:</strong><br>
+        <?php echo htmlspecialchars($ticket['motivo_rechazo']); ?>
+    </p>
+<?php endif; ?>
+
 </div>
 
 <?php endwhile; ?>
