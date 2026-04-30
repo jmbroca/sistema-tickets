@@ -95,3 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+//CANCELAR TICKET
+function confirmarCancelacion(ticketId){
+
+    if(confirm("¿Estás seguro de cancelar este ticket?")){
+        window.location.href = "cancelar_ticket.php?id=" + ticketId;
+    }
+
+}

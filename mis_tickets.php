@@ -3,6 +3,31 @@ require 'includes/init.php';
 require 'includes/auth.php';
 requireLogin();
 
+/* 🧹 1. BORRAR ARCHIVOS FÍSICOS */
+$result = $conn->query("
+    SELECT archivo FROM adjuntos 
+    WHERE ticket_id IN (
+        SELECT id FROM tickets 
+        WHERE estado='cancelado' 
+        AND fecha_cancelado <= NOW() - INTERVAL 1 HOUR
+    )
+");
+
+while($row = $result->fetch_assoc()){
+    $ruta = "uploads/" . $row['archivo'];
+    if(file_exists($ruta)){
+        unlink($ruta);
+    }
+}
+
+/* 🧹 2. BORRAR REGISTROS DE BD */
+$conn->query("
+    DELETE t, a FROM tickets t
+    LEFT JOIN adjuntos a ON a.ticket_id = t.id
+    WHERE t.estado = 'cancelado'
+    AND t.fecha_cancelado <= NOW() - INTERVAL 1 HOUR
+");
+
 $id_usuario = $_SESSION['id'];
 
 $stmt = $conn->prepare("
@@ -89,6 +114,12 @@ if($estado=='cancelado' || $estado=='rechazado'){
     </div>
 
 </div>
+
+<?php if ($ticket['estado'] === 'Pendiente'): ?>
+    <p class="cancel-ticket" onclick="confirmarCancelacion(<?php echo $ticket['id']; ?>)">
+        Cancelar ticket
+    </p>
+<?php endif; ?>
 
 </div>
 
