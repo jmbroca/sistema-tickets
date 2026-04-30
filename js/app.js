@@ -43,3 +43,55 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
 });
+
+//ANIMACION PARA BARRA DE ESTADO
+document.addEventListener("DOMContentLoaded", () => {
+
+    const timelines = document.querySelectorAll(".timeline");
+
+    timelines.forEach((timeline, index) => {
+
+        const estadoReal = timeline.dataset.estado;
+        const label = timeline.parentElement.querySelector(".status-label");
+
+        // Reset timeline
+        timeline.classList.remove("proceso","resuelto","cancelado");
+        timeline.classList.add("pendiente");
+
+        if(label){
+
+            // 1. Forzar inicio en izquierda
+            label.classList.remove("center","right");
+            label.classList.add("left");
+            label.style.opacity = "0";
+
+        }
+
+        setTimeout(() => {
+
+            // Animar timeline
+            timeline.classList.remove("pendiente");
+            timeline.classList.add(estadoReal);
+
+            if(label){
+
+                // 2. Mover a su posición real
+                label.classList.remove("left");
+
+                if(estadoReal === "proceso"){
+                    label.classList.add("center");
+                }
+
+                if(estadoReal === "resuelto" || estadoReal === "cancelado"){
+                    label.classList.add("right");
+                }
+
+                // 3. Fade in
+                label.style.opacity = "1";
+            }
+
+        }, 300 + (index * 150));
+
+    });
+
+});

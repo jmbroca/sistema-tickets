@@ -77,7 +77,8 @@ if($estado=='cancelado' || $estado=='rechazado'){
 
 <div class="ticket-status">
 
-    <div class="timeline <?php echo $estadoClase; ?>">
+    <div class="timeline <?php echo $estadoClase; ?>" 
+     data-estado="<?php echo $estadoClase; ?>">
         <span></span>
         <span></span>
         <span></span>

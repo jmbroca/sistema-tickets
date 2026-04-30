@@ -233,7 +233,7 @@ a {
     width:90%;
     max-width:500px;
 
-    margin:30px auto;
+    margin:10px auto;
     align-self:flex-start;
 }
 
@@ -303,6 +303,9 @@ a {
 
 .ticket-status{
    margin-top:5px;
+   position:relative;
+   padding-top:10px;
+   padding-bottom:20px;
 }
 
 .timeline{
@@ -371,8 +374,9 @@ a {
 
 /* Resuelto */
 
-.timeline.resuelto::before{
-   background:#00a94f;
+.timeline.resuelto::after{
+    width:100%;
+    background:#00a94f;
 }
 
 .timeline.resuelto span{
@@ -385,8 +389,9 @@ a {
 
 /* Rechazado/Cancelado */
 
-.timeline.cancelado::before{
-   background:#d62828;
+.timeline.cancelado::after{
+    width:100%;
+    background:#d62828;
 }
 
 .timeline.cancelado span{
@@ -397,21 +402,40 @@ a {
    color:#d62828;
 }
 
-/* posición del texto */
-
+/* TEXTO */
 .status-label{
-   font-weight:700;
-   font-size:15px;
+    position:absolute;
+    bottom:0;
+    font-weight:700;
+    font-size:15px;
+    opacity:0;
+    left:0; /* SIEMPRE inicia en pendiente */
+
+    transform:translateX(0);
+    transition: left 1s ease, transform 1s ease, opacity 0.5s ease;
 }
 
+/* DESTINOS */
+
 .status-label.left{
-   text-align:left;
+    left:0;
+    transform:translateX(0);
 }
 
 .status-label.center{
-   text-align:center;
+    left:50%;
+    transform:translateX(-50%);
 }
 
 .status-label.right{
-   text-align:right;
+    left:100%;
+    transform:translateX(-100%);
+}
+
+.timeline::after{
+    transition: width 1s ease;
+}
+
+.timeline span{
+    transition: background 1s ease;
 }
