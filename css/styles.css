@@ -231,18 +231,15 @@ a {
 
 .tickets-container{
     width:90%;
-    max-width:400px;
+    max-width:500px;
 
     margin:30px auto;
-
     align-self:flex-start;
-    border:2px solid red;
 }
 
 .ticket-card{
-    width:90%;
-    max-width:400px;
-    min-width:325px;
+    width:100%;
+    max-width:500px;
     margin:18px auto;
 
     background:#fff;
@@ -251,9 +248,14 @@ a {
     box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 600px) {
+    .tickets-container {
+        max-width: 325px;
+        margin:10px auto;
+    }
+    
     .ticket-card {
-        min-width: 500px;
+        max-width: 325px;
     }
 }
 
